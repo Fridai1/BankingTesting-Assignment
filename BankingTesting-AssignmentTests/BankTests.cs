@@ -15,6 +15,7 @@ namespace BankingTesting_Assignment.Tests
         private Bank b;
         private IAccount a;
         private string aNo;
+        private ICustomer customer;
 
         public void setUp()
         {
@@ -24,26 +25,25 @@ namespace BankingTesting_Assignment.Tests
             aMock.Setup(ac => ac.Number).Returns(aNo);
             a = aMock.Object;
             b.AddAccount(a);
+            List<IAccount> lAccount = new List<IAccount>();
+            lAccount.Add(a);
+            customer = new Customer("231231312", "hans",lAccount);
 
 
         }
         [TestMethod()]
-
         public void GetAccountByNumber()
         {
             //Arrange
-            //Get dummy objects
             setUp();
-
-
 
             //Act
             var ac = b.GetAccount(aNo);
 
-
             //Assert
             Assert.AreEqual(a,ac);
         }
+
         [TestMethod()]
         [ExpectedException(typeof(Exception),"Account not found")]
         public void GetAccountByNumberWrongInput()
@@ -54,13 +54,25 @@ namespace BankingTesting_Assignment.Tests
             //Act
             b.GetAccount("321");
 
-
             //Assert
 
             // Asserting exception thrown
         }
 
-       
+        [TestMethod()]
+        public void GetAccountsByCustomer()
+        {
+            //Arrange
+            setUp();
+
+            //Act
+            var ac = b.GetAccounts(customer);
+
+            //Assert
+            Assert.AreEqual(1, ac.Count);
+        }
+
+
 
     }
 }
