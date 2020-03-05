@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
     <Compile Include="BankTests.cs" />
+    <Compile Include="CustomerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,6 @@ namespace BankingTesting_Assignment.Tests
             {
                 new Customer("0101011111", "Lars larsen", new List<IAccount>() {new Account("123",0)}),
                 new Customer("0101012222", "Jens larsen", new List<IAccount>() {new Account("456", 0)}),
-                new Customer("0101013333", "Yvonne larsen", new List<IAccount>() {new Account("789", 0)})
             };
             bankMock.Setup(x => x.Customers).Returns(customers);
 
@@ -72,19 +71,22 @@ namespace BankingTesting_Assignment.Tests
         {
             // Arrange
             Setup();
-            IAccount source = bank.Customers[0].Accounts[0];
-            IAccount target = bank.Customers[1].Accounts[0];
+            IAccount sourceAccount = bank.Customers[0].Accounts[0];
+            IAccount targetAccount = bank.Customers[1].Accounts[0];
+            ICustomer sourceCustomer = bank.Customers[0];
+            ICustomer targetCustomer = bank.Customers[1];
+
 
             // Act
-            bank.Customers[0].Transfer(1000, source, bank.Customers[1]);
+            sourceCustomer.Transfer(1000, sourceAccount, targetCustomer);
             
 
             //assert    
-            Assert.AreEqual(1,bank.Customers[0].Accounts[0].WithdrawalsLog.Count);
-            Assert.AreEqual(source.WithdrawalsLog[0].Target, target.DepositsLog[0].Source);
+            Assert.AreEqual(1,sourceAccount.WithdrawalsLog.Count);
+            Assert.AreEqual(sourceAccount.WithdrawalsLog[0].Target, targetAccount.DepositsLog[0].Target);
+            Assert.AreEqual(sourceAccount.WithdrawalsLog[0].Source, targetAccount.DepositsLog[0].Source);
+            Assert.AreEqual(sourceAccount.WithdrawalsLog[0].Amount, targetAccount.DepositsLog[0].Amount);
             
-            //Assert.AreEqual(1,bank.Customers[0].Accounts[0].WithdrawalsLog.Count);
-            //Assert.AreEqual(1,bank.Customers[0].Accounts[0].WithdrawalsLog.Count);
             Teardown();
         }
 
