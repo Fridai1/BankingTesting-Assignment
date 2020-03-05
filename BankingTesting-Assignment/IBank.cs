@@ -4,7 +4,10 @@ namespace BankingTesting_Assignment
 {
     public interface IBank
     {
-        Account GetAccount(string number);
-        List<Account> GetAccounts(Customer customer);
+        IAccount GetAccount(string number);
+        List<IAccount> GetAccounts(ICustomer customer);
+        void AddAccount(IAccount account);
+
+        List<ICustomer> Customers { get; set; }
     }
 }

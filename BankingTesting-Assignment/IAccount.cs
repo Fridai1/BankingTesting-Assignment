@@ -5,9 +5,10 @@ namespace BankingTesting_Assignment
     public interface IAccount
     {
         long Balance { get; set; }
-        List<Movement> DepositLog { get; }
+        List<Movement> DepositsLog { get; }
+        List<Movement> WithdrawalsLog { get; }
         string Number { get; }
-        void Deposit(Account source, Account target, long amount);
-        void Withdrawal(long amount, Account target);
+        void Deposit(IAccount source, IAccount target, long amount);
+        void Withdrawal(long amount, IAccount target);
     }
 }

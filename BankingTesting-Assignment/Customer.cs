@@ -7,9 +7,9 @@ namespace BankingTesting_Assignment
     {
         private string _cpr;
         private string _name;
-        private List<Account> _accounts;
+        private List<IAccount> _accounts;
 
-        public Customer(string cpr, string name, List<Account> accounts)
+        public Customer(string cpr, string name, List<IAccount> accounts)
         {
             _cpr = cpr;
             _name = name;
@@ -22,16 +22,16 @@ namespace BankingTesting_Assignment
         }
 
         
-        public List<Account> Accounts
+        public List<IAccount> Accounts
         {
             get => _accounts;
         }
 
-        public void Transfer(long amount, Account account, Customer target)
+        public void Transfer(long amount, IAccount account, ICustomer target)
         {
             account.Withdrawal(amount,target.Accounts[0]);
             target.Accounts[0].Deposit(account, target.Accounts[0], amount);
-            target.Accounts[0].DepositLog.Add(MovementFactory.CreateMovement(account, target._accounts[0], DateTime.Now, amount));
+            target.Accounts[0].DepositsLog.Add(MovementFactory.CreateMovement(account, target.Accounts[0], DateTime.Now, amount));
         }
     }
 }

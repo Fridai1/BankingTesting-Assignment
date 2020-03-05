@@ -10,7 +10,7 @@ namespace BankingTesting_Assignment
         
         private string _number;
         private long _balance;
-        private List<Movement> _deposits;
+        private List<Movement> _depositses;
         private List<Movement> _withrawal;
 
         public Account(string number, long balance)
@@ -18,7 +18,7 @@ namespace BankingTesting_Assignment
             
             _number = number;
             _balance = balance;
-            _deposits = new List<Movement>();
+            _depositses = new List<Movement>();
             _withrawal = new List<Movement>();
         }
 
@@ -28,9 +28,13 @@ namespace BankingTesting_Assignment
             set => _balance += value; 
         }
 
-        public List<Movement> DepositLog
+        public List<Movement> DepositsLog
         {
-            get => _deposits;
+            get => _depositses;
+        }
+        public List<Movement> WithdrawalsLog
+        {
+            get => _withrawal;
         }
 
         public string Number
@@ -38,14 +42,14 @@ namespace BankingTesting_Assignment
             get => _number;
         }
 
-        public void Deposit(Account source, Account target, long amount)
+        public void Deposit(IAccount source, IAccount target, long amount)
         {
             Balance = amount;
-            _deposits.Add(MovementFactory.CreateMovement(source,target,DateTime.Now,amount));
+            _depositses.Add(MovementFactory.CreateMovement(source,target,DateTime.Now,amount));
         }
 
 
-        public void Withdrawal(long amount, Account source)
+        public void Withdrawal(long amount, IAccount source)
         {
             Balance = -amount;
             _withrawal.Add(MovementFactory.CreateMovement(this,source,DateTime.Now, amount));

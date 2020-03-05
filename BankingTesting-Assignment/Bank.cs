@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BankingTesting_Assignment
@@ -7,33 +8,48 @@ namespace BankingTesting_Assignment
     {
         private string _cvr;
         private string _name;
-        private List<Customer> _customers;
-        private List<Account> _accounts;
+        private List<ICustomer> _customers;
+        private List<IAccount> _accounts;
 
         public Bank(string name, string cvr)
         {
-            _customers = new List<Customer>();
-            _accounts = new List<Account>();
+            _customers = new List<ICustomer>();
+            _accounts = new List<IAccount>();
             _name = name;
             _cvr = cvr;
         }
 
 
-
-        public Account GetAccount(string number)
+        public IAccount GetAccount(string number)
         {
-           return _accounts.Find(x => x.Number == number);
+            
+            var c = _accounts.Exists(x => x.Number == number);
+            if (number != null && _accounts.Exists(x => x.Number == number))
+            {
+                return _accounts.Find(x => x.Number == number);
+            }
+
+            throw new Exception($"Account not found");
+
         }
 
-        public List<Customer> Customers
+        public List<ICustomer> Customers
         {
             get => _customers;
             set => _customers = value;
         }
 
-        public List<Account> GetAccounts(Customer customer)
+
+        public void AddAccount(IAccount a)
         {
-            List<Account> customerAccounts = new List<Account>();
+            _accounts.Add(a);
+        }
+
+        
+
+        public List<IAccount> GetAccounts(ICustomer customer)
+        {
+            List<IAccount> customerAccounts = new List<IAccount>();
             for (int i = 0; i < _accounts.Count; i++)
             {
                 customerAccounts.Add(_accounts.Find(x => x.Number == customer.Accounts[i].Number));
